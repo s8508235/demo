@@ -1,0 +1,19 @@
+
+.dialog-table {
+    overflow: auto;
+}
+.mat-dialog-title {
+    text-align: center;
+    font-weight: 700;
+}
+.mat-table {
+    table-layout: fixed;
+    .mat-header-row,
+    .mat-row {
+        min-height: 40px;
+    }
+    .mat-header-cell,
+    .mat-cell {
+        min-width: 60px;
+    }
+}

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +25,7 @@ import { ClinicTableComponent } from './clinic-table/clinic-table.component';
     MatCardModule,
     MatDialogModule,
     MatTableModule,
+    MatButtonModule,
     BrowserAnimationsModule
   ],
   providers: [

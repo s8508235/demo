@@ -39,6 +39,7 @@ export class ClinicMapComponent implements OnInit {
     const hs = taiwanMapTemplate.states.create("hover");
     hs.properties.fill = am4core.color("#367B25");
 
+    // overlay with village level but too slow
     // const townMapSeries = chart.series.push(new am4maps.MapPolygonSeries());
     // townMapSeries.geodataSource.url = 'assets/twVillage1982_simplify.geo.json';
     // const townMapTemplate = townMapSeries.mapPolygons.template;
@@ -57,7 +58,7 @@ export class ClinicMapComponent implements OnInit {
   }
 
   openDialog(detail) {
-    const dialogRef = this.dialog.open(ClinicTableComponent, {
+    this.dialog.open(ClinicTableComponent, {
       minWidth: '600px',
       minHeight: '400px',
       panelClass: 'dialog-table',
@@ -65,10 +66,6 @@ export class ClinicMapComponent implements OnInit {
         column: this.csvDataMapping,
         detail
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -115,16 +112,33 @@ export class ClinicMapComponent implements OnInit {
   }
 
   private parseCSVDataToImageData(data: string) {
-    const csvData = data.split('\n');
+    // const csvData = data.split('\n');
+    const csvData = this.csvToArray(data);
     const imageData = [];
     for (let i = 1; i <= 1000; i++) {
-      const csvRawColumn = csvData[i].split(',');
-      if(csvRawColumn[8] ==='"') {
-        csvRawColumn.splice(8,1);
-      }
+      // console.log(csvData[i].replace(/\"/g, "\"\""));
+      const csvRawColumn = csvData[i];
       const address = csvRawColumn[this.getCSVIndex(`地址`)];
       imageData.push({ title: csvRawColumn[this.getCSVIndex(`機構名稱`)], ...this.dataService.getLatLng(address), detail: csvRawColumn })
     }
     return imageData;
   }
+
+  // source: https://stackoverflow.com/a/41563966
+  private csvToArray(text: string): string[][] {
+    let p = '', row = [''], ret = [row], i = 0, r = 0, s = !0;
+    for (let l of text) {
+      if ('"' === l) {
+        if (s && l === p) row[i] += l;
+        s = !s;
+      } else if (',' === l && s) l = row[++i] = '';
+      else if ('\n' === l && s) {
+        if ('\r' === p) row[i] = row[i].slice(0, -1);
+        row = ret[++r] = [l = '']; i = 0;
+      } else row[i] += l;
+      p = l;
+    }
+    return ret;
+  };
+
 }

@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{title}}</h2>
+<mat-dialog-content class="mat-typography">
+    <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="category">
+            <mat-cell *matCellDef="let row"> {{row[0]}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="value">
+            <mat-cell *matCellDef="let row"> {{row[1]}} </mat-cell>
+        </ng-container>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button color="primary" mat-dialog-close>Close</button>
+</mat-dialog-actions>
